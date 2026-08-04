@@ -4,17 +4,6 @@ const MAX_LEN = 500;
 const safe = (v) => String(v || '').replace(/[\r\n]/g, ' ').trim().slice(0, MAX_LEN);
 
 module.exports = async (req, res) => {
-  // 임시 진단용: 환경변수가 "설정되었는지 여부"만 반환합니다. 값은 노출하지 않습니다.
-  if (req.method === 'GET' && req.query && req.query.diag === '1') {
-    res.status(200).json({
-      GMAIL_USER: Boolean(process.env.GMAIL_USER),
-      GMAIL_APP_PASSWORD: Boolean(process.env.GMAIL_APP_PASSWORD),
-      LEAD_TO_EMAIL: Boolean(process.env.LEAD_TO_EMAIL),
-      deployedAt: process.env.VERCEL_DEPLOYMENT_ID ? 'ok' : 'unknown',
-    });
-    return;
-  }
-
   if (req.method !== 'POST') {
     res.status(405).json({ ok: false, error: 'Method not allowed' });
     return;
