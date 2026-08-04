@@ -642,7 +642,7 @@ class Component extends DCLogic {
           if (thanks) thanks.style.display = 'block';
         } catch (e) {
           if (errBox) {
-            errBox.textContent = '전송 중 문제가 발생했습니다. 전화로 문의해 주세요 (010-4572-7449).';
+            errBox.innerHTML = '전송 중 문제가 발생했습니다. <a href="tel:010-4572-7449" style="color:#E4CFA6;text-decoration:underline;">010-4572-7449</a>로 전화 주세요.';
             errBox.style.display = 'block';
           }
           btn.disabled = false;
