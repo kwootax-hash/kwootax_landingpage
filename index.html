@@ -52,8 +52,8 @@
         </span>
       </a>
       <nav id="deskmenu" style="display:flex;align-items:center;gap:30px;">
-        <a href="#checklist" style="color:#A8AEB8;font-size:13.5px;font-weight:500;letter-spacing:.6px;">셀프 체크</a>
         <a href="#services" style="color:#A8AEB8;font-size:13.5px;font-weight:500;letter-spacing:.6px;">서비스 소개</a>
+        <a href="#checklist" style="color:#A8AEB8;font-size:13.5px;font-weight:500;letter-spacing:.6px;">셀프 체크</a>
         <a href="#process" style="color:#A8AEB8;font-size:13.5px;font-weight:500;letter-spacing:.6px;">진행 절차</a>
         <a href="#reviews" style="color:#A8AEB8;font-size:13.5px;font-weight:500;letter-spacing:.6px;">고객 후기</a>
         <a href="#faq" style="color:#A8AEB8;font-size:13.5px;font-weight:500;letter-spacing:.6px;">자주 묻는 질문</a>
@@ -65,8 +65,8 @@
     </div>
     <!-- mobile drawer -->
     <div id="drawer" style="display:none;flex-direction:column;gap:2px;background:#151920;border-top:1px solid rgba(255,255,255,.06);padding:10px 18px 20px;">
-      <a href="#checklist" data-mclose="" style="padding:14px 6px;color:#D5D9E0;font-size:16px;border-bottom:1px solid rgba(255,255,255,.05);">셀프 체크</a>
       <a href="#services" data-mclose="" style="padding:14px 6px;color:#D5D9E0;font-size:16px;border-bottom:1px solid rgba(255,255,255,.05);">서비스 소개</a>
+      <a href="#checklist" data-mclose="" style="padding:14px 6px;color:#D5D9E0;font-size:16px;border-bottom:1px solid rgba(255,255,255,.05);">셀프 체크</a>
       <a href="#process" data-mclose="" style="padding:14px 6px;color:#D5D9E0;font-size:16px;border-bottom:1px solid rgba(255,255,255,.05);">진행 절차</a>
       <a href="#reviews" data-mclose="" style="padding:14px 6px;color:#D5D9E0;font-size:16px;border-bottom:1px solid rgba(255,255,255,.05);">고객 후기</a>
       <a href="#faq" data-mclose="" style="padding:14px 6px;color:#D5D9E0;font-size:16px;border-bottom:1px solid rgba(255,255,255,.05);">자주 묻는 질문</a>
@@ -77,7 +77,7 @@
   <!-- HERO -->
   <section id="top" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;">
     <div style="position:absolute;inset:0;z-index:0;">
-      <image-slot id="hero-bg" shape="rect" fit="cover" src="./assets/hero-sunset.jpg" placeholder="히어로 배경 이미지 — 어두운 톤의 비즈니스 사진(서류·계산기·악수 등)"></image-slot>
+      <image-slot id="hero-bg" shape="rect" fit="cover" src="./assets/hero-salon.jpg" placeholder="히어로 배경 이미지 — 어두운 톤의 비즈니스 사진(서류·계산기·악수 등)"></image-slot>
     </div>
     <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(10,12,16,.94) 0%,rgba(13,16,20,.82) 46%,rgba(13,16,20,.35) 100%);"></div>
     <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(10,12,16,.5) 0%,rgba(10,12,16,0) 30%,rgba(10,12,16,.7) 100%);"></div>
@@ -109,6 +109,59 @@
     <div class="scrollcue" style="position:absolute;bottom:34px;left:36px;z-index:2;opacity:0;animation:floatIn .8s ease .9s forwards;display:flex;flex-direction:column;align-items:center;gap:14px;color:#7B818C;font-size:10.5px;letter-spacing:3px;">
       <span style="writing-mode:vertical-rl;">SCROLL</span>
       <span style="width:1px;height:46px;background:linear-gradient(#C9A063,transparent);"></span>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="position:relative;overflow:hidden;background:#0F1218;border-top:1px solid rgba(255,255,255,.04);">
+    <div style="position:absolute;top:0;left:0;right:0;height:min(62%,760px);z-index:0;background-image:url('./assets/services-climb.jpg');background-size:cover;background-position:center 42%;"></div>
+    <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(13,16,20,.74) 0%,rgba(13,16,20,.88) 34%,rgba(13,16,20,.97) 58%,#0F1218 70%);"></div>
+    <div style="position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:100px 28px;">
+      <div data-reveal="" style="text-align:center;max-width:640px;margin:0 auto 56px;">
+        <div style="display:inline-flex;align-items:center;gap:12px;color:#C9A063;font-weight:700;font-size:12.5px;letter-spacing:3px;margin-bottom:18px;"><span style="width:26px;height:1px;background:#C9A063;"></span>SERVICES</div>
+        <h2 style="font-size:clamp(28px,3.6vw,42px);font-weight:800;letter-spacing:-1.3px;line-height:1.25;">미용실 사장님을 위한<br><span style="font-weight:300;">네 가지 핵심 서비스</span></h2>
+        <p style="margin-top:18px;color:#98A0AC;font-size:17px;line-height:1.7;">기장·노무·지원금·마케팅, 미용실 운영에 필요한 것만 모았습니다.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="svcgrid">
+        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
+          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">01</div>
+          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">미용실만 보는<br>세무사무소입니다</h3>
+          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">인테리어 계약 단계의 사업자등록부터 오픈 초기 부가세, 디자이너 인건비 신고까지. 매장에서 실제로 벌어지는 순서대로 상담해 드립니다.</p>
+          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
+            <div><b style="color:#D5D9E0;">합리적인 기장료</b> — 1인샵부터 다점포까지 매장 규모에 맞춰 책정</div>
+            <div><b style="color:#D5D9E0;">연간 결산 보고서</b> — 매출·손익, 디자이너별 비중을 매년 정리</div>
+          </div>
+        </div>
+        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
+          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">02</div>
+          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">계약서 한 장이<br>원장님을 지킵니다</h3>
+          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">미용실의 갈등은 대부분 계약서 없이 시작한 관계에서 옵니다. 제휴 노무사와 함께 채용 단계부터 정리해 드립니다.</p>
+          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
+            <div><b style="color:#D5D9E0;">채용할 때</b> — 직원·프리랜서(3.3%) 구분, 표준 계약서 제공</div>
+            <div><b style="color:#D5D9E0;">분쟁이 생겼을 때</b> — 임금체불·부당해고 진정, 노동청 대응 지원</div>
+          </div>
+          <p style="margin-top:14px;color:#6B7280;font-size:12px;line-height:1.6;">※ 노무 관련 업무는 제휴 노무법인·공인노무사와 협업으로 진행됩니다.</p>
+        </div>
+        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
+          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">03</div>
+          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">받을 수 있는 지원금,<br>매년 먼저 챙깁니다</h3>
+          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">지원사업은 해마다 요건이 바뀌고, 대부분 신청한 사업장만 받습니다. 매년 해당되는 사업을 확인해 먼저 알려드립니다.</p>
+          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
+            <div><b style="color:#D5D9E0;">인건비 부담</b> — 두루누리 사회보험료 지원, 청년일자리도약장려금</div>
+            <div><b style="color:#D5D9E0;">자금과 바우처</b> — 소상공인 정책자금, 지자체 지원사업</div>
+          </div>
+        </div>
+        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
+          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">04</div>
+          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">네이버플레이스<br>세팅도 무료로</h3>
+          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">미용실은 손님이 지도에서 먼저 찾습니다. 제휴 마케팅사와 함께 네이버플레이스 등록·세팅을 도와드립니다.</p>
+          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
+            <div><b style="color:#D5D9E0;">오픈할 때</b> — 플레이스 신규 등록, 기본 정보·사진 세팅</div>
+            <div><b style="color:#D5D9E0;">상담 신청 고객</b> — 별도 신청 없이 무료로 함께 안내</div>
+          </div>
+          <p style="margin-top:14px;color:#6B7280;font-size:12px;line-height:1.6;">※ 플레이스 세팅은 제휴 마케팅사와 협업으로 진행됩니다.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -213,59 +266,6 @@
         <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(13,16,20,.15),rgba(13,16,20,.55));"></div>
       </div>
       
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services" style="position:relative;overflow:hidden;background:#0F1218;border-top:1px solid rgba(255,255,255,.04);">
-    <div style="position:absolute;top:0;left:0;right:0;height:min(62%,760px);z-index:0;background-image:url('./assets/services-climb.jpg');background-size:cover;background-position:center 42%;"></div>
-    <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(13,16,20,.74) 0%,rgba(13,16,20,.88) 34%,rgba(13,16,20,.97) 58%,#0F1218 70%);"></div>
-    <div style="position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:100px 28px;">
-      <div data-reveal="" style="text-align:center;max-width:640px;margin:0 auto 56px;">
-        <div style="display:inline-flex;align-items:center;gap:12px;color:#C9A063;font-weight:700;font-size:12.5px;letter-spacing:3px;margin-bottom:18px;"><span style="width:26px;height:1px;background:#C9A063;"></span>SERVICES</div>
-        <h2 style="font-size:clamp(28px,3.6vw,42px);font-weight:800;letter-spacing:-1.3px;line-height:1.25;">미용실 사장님을 위한<br><span style="font-weight:300;">네 가지 핵심 서비스</span></h2>
-        <p style="margin-top:18px;color:#98A0AC;font-size:17px;line-height:1.7;">기장·노무·지원금·마케팅, 미용실 운영에 필요한 것만 모았습니다.</p>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="svcgrid">
-        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
-          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">01</div>
-          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">미용실만 보는<br>세무사무소입니다</h3>
-          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">인테리어 계약 단계의 사업자등록부터 오픈 초기 부가세, 디자이너 인건비 신고까지. 매장에서 실제로 벌어지는 순서대로 상담해 드립니다.</p>
-          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
-            <div><b style="color:#D5D9E0;">합리적인 기장료</b> — 1인샵부터 다점포까지 매장 규모에 맞춰 책정</div>
-            <div><b style="color:#D5D9E0;">연간 결산 보고서</b> — 매출·손익, 디자이너별 비중을 매년 정리</div>
-          </div>
-        </div>
-        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
-          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">02</div>
-          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">계약서 한 장이<br>원장님을 지킵니다</h3>
-          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">미용실의 갈등은 대부분 계약서 없이 시작한 관계에서 옵니다. 제휴 노무사와 함께 채용 단계부터 정리해 드립니다.</p>
-          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
-            <div><b style="color:#D5D9E0;">채용할 때</b> — 직원·프리랜서(3.3%) 구분, 표준 계약서 제공</div>
-            <div><b style="color:#D5D9E0;">분쟁이 생겼을 때</b> — 임금체불·부당해고 진정, 노동청 대응 지원</div>
-          </div>
-          <p style="margin-top:14px;color:#6B7280;font-size:12px;line-height:1.6;">※ 노무 관련 업무는 제휴 노무법인·공인노무사와 협업으로 진행됩니다.</p>
-        </div>
-        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
-          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">03</div>
-          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">받을 수 있는 지원금,<br>매년 먼저 챙깁니다</h3>
-          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">지원사업은 해마다 요건이 바뀌고, 대부분 신청한 사업장만 받습니다. 매년 해당되는 사업을 확인해 먼저 알려드립니다.</p>
-          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
-            <div><b style="color:#D5D9E0;">인건비 부담</b> — 두루누리 사회보험료 지원, 청년일자리도약장려금</div>
-            <div><b style="color:#D5D9E0;">자금과 바우처</b> — 소상공인 정책자금, 지자체 지원사업</div>
-          </div>
-        </div>
-        <div data-reveal="" class="svc" style="background:linear-gradient(180deg,#151920,#111419);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:32px 28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;">
-          <div style="width:38px;height:38px;border-radius:4px;background:rgba(201,160,99,.14);display:flex;align-items:center;justify-content:center;color:#C9A063;font-weight:800;font-size:15px;margin-bottom:20px;">04</div>
-          <h3 style="font-size:21px;font-weight:700;letter-spacing:-.4px;">네이버플레이스<br>세팅도 무료로</h3>
-          <p style="margin-top:14px;color:#9AA0AB;font-size:15px;line-height:1.75;">미용실은 손님이 지도에서 먼저 찾습니다. 제휴 마케팅사와 함께 네이버플레이스 등록·세팅을 도와드립니다.</p>
-          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:10px;font-size:14px;color:#AEB4BF;">
-            <div><b style="color:#D5D9E0;">오픈할 때</b> — 플레이스 신규 등록, 기본 정보·사진 세팅</div>
-            <div><b style="color:#D5D9E0;">상담 신청 고객</b> — 별도 신청 없이 무료로 함께 안내</div>
-          </div>
-          <p style="margin-top:14px;color:#6B7280;font-size:12px;line-height:1.6;">※ 플레이스 세팅은 제휴 마케팅사와 협업으로 진행됩니다.</p>
-        </div>
-      </div>
     </div>
   </section>
 
