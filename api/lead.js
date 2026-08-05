@@ -23,6 +23,14 @@ module.exports = async (req, res) => {
   const type = safe(body.type);
   const memo = safe(body.memo);
 
+  // 광고 유입 경로 (utm_*, fbclid, referrer). 값이 없으면 '직접 유입'으로 표기.
+  const SOURCE_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'referrer'];
+  const src = (body.source && typeof body.source === 'object') ? body.source : {};
+  const sourceLines = SOURCE_KEYS
+    .filter((k) => src[k])
+    .map((k) => `  ${k}: ${safe(src[k])}`);
+  const sourceText = sourceLines.length ? sourceLines.join('\n') : '  직접 유입 (광고 파라미터 없음)';
+
   if (!name || !phone) {
     res.status(400).json({ ok: false, error: '이름과 연락처를 입력해 주세요.' });
     return;
@@ -50,6 +58,9 @@ module.exports = async (req, res) => {
         `현재 상태: ${status || '-'}`,
         `문의 유형: ${type || '-'}`,
         `문의 내용: ${memo || '-'}`,
+        '',
+        '유입 경로',
+        sourceText,
       ].join('\n'),
     });
     res.status(200).json({ ok: true });

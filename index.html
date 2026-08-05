@@ -615,6 +615,28 @@ class Component extends DCLogic {
       });
     });
 
+    // 광고 유입 경로 기억 (첫 진입 시 URL 파라미터를 저장해 두고 폼 전송 때 함께 보냄)
+    const SRC_KEY = 'kw_src';
+    const readSource = () => {
+      try {
+        const q = new URLSearchParams(location.search);
+        const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        const got = {};
+        keys.forEach((k) => { if (q.get(k)) got[k] = q.get(k); });
+        if (q.get('fbclid')) got.fbclid = q.get('fbclid');
+        if (Object.keys(got).length) {
+          got.landed_at = new Date().toISOString();
+          sessionStorage.setItem(SRC_KEY, JSON.stringify(got));
+          return got;
+        }
+        const saved = sessionStorage.getItem(SRC_KEY);
+        if (saved) return JSON.parse(saved);
+        if (document.referrer) return { referrer: document.referrer };
+      } catch (e) {}
+      return {};
+    };
+    const adSource = readSource();
+
     // Lead form
     const form = document.getElementById('leadform');
     const thanks = document.getElementById('leadthanks');
@@ -638,6 +660,7 @@ class Component extends DCLogic {
               status: form.status.value,
               type: form.type.value,
               memo: form.memo.value,
+              source: adSource,
             }),
           });
           let data = {};
