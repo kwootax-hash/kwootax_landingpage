@@ -13,6 +13,19 @@
 <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin="">
 <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <script src="./image-slot.js"></script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1565517118443607');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+src="https://www.facebook.com/tr?id=1565517118443607&ev=PageView&noscript=1"></noscript>
+<!-- End Meta Pixel -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:#0D1014; color:#E8E6E1; font-family:'Pretendard','Pretendard Variable',sans-serif; -webkit-font-smoothing:antialiased; }
@@ -666,6 +679,8 @@ class Component extends DCLogic {
           let data = {};
           try { data = await res.json(); } catch (e) {}
           if (!res.ok || !data.ok) throw new Error(data.error || '전송 실패');
+          // 페이지 이동 없이 전송되므로 성공 시점에 직접 Lead 이벤트를 보냄
+          if (window.fbq) { try { fbq('track', 'Lead'); } catch (e) {} }
           form.style.display = 'none';
           if (thanks) thanks.style.display = 'block';
         } catch (e) {
