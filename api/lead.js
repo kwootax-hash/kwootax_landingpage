@@ -31,8 +31,9 @@ module.exports = async (req, res) => {
     .map((k) => `  ${k}: ${safe(src[k])}`);
   const sourceText = sourceLines.length ? sourceLines.join('\n') : '  직접 유입 (광고 파라미터 없음)';
 
-  if (!name || !phone) {
-    res.status(400).json({ ok: false, error: '이름과 연락처를 입력해 주세요.' });
+  // 상단 빠른 질문 폼은 연락처만 받으므로 이름은 선택 항목으로 둔다.
+  if (!phone) {
+    res.status(400).json({ ok: false, error: '연락처를 입력해 주세요.' });
     return;
   }
 
@@ -51,9 +52,9 @@ module.exports = async (req, res) => {
     await transporter.sendMail({
       from: `"세무회계 경우 랜딩페이지" <${GMAIL_USER}>`,
       to: LEAD_TO_EMAIL || GMAIL_USER,
-      subject: `[상담신청] ${name} / ${phone}`,
+      subject: `[상담신청] ${name || type || '빠른 질문'} / ${phone}`,
       text: [
-        `이름/상호: ${name}`,
+        `이름/상호: ${name || '(미기재 — 빠른 질문 폼)'}`,
         `연락처: ${phone}`,
         `현재 상태: ${status || '-'}`,
         `문의 유형: ${type || '-'}`,
