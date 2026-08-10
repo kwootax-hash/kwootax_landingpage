@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
 
   const name = safe(body.name);
   const phone = safe(body.phone);
+  const email = safe(body.email);
   const status = safe(body.status);
   const type = safe(body.type);
   const memo = safe(body.memo);
@@ -54,8 +55,9 @@ module.exports = async (req, res) => {
       to: LEAD_TO_EMAIL || GMAIL_USER,
       subject: `[상담신청] ${name || type || '빠른 질문'} / ${phone}`,
       text: [
-        `이름/상호: ${name || '(미기재 — 빠른 질문 폼)'}`,
+        `이름/상호: ${name || '(미기재 — 상단 체크리스트 폼)'}`,
         `연락처: ${phone}`,
+        `이메일: ${email || '(미기재 — 문자로 발송)'}`,
         `현재 상태: ${status || '-'}`,
         `문의 유형: ${type || '-'}`,
         `문의 내용: ${memo || '-'}`,
