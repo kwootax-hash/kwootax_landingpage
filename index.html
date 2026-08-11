@@ -652,92 +652,91 @@ class Component extends DCLogic {
 }
 </script>
 
-<!-- 상담 폼 — 표준 스크립트로 분리.
-     이전에는 <script type="text/x-dc"> 안에 있어서 프레임워크가 뜨지 않으면
-     전송 핸들러가 아예 붙지 않았다. 폼에 action 이 없어 그 경우 새로고침만 되고
-     데이터는 사라진다. 문의가 안 들어오던 원인일 수 있어 표준 스크립트로 옮김. -->
+<!-- 상담 폼 전송 — document 위임 방식.
+     support.js가 <x-dc> 안쪽 DOM을 템플릿으로 다시 그리기 때문에,
+     폼 요소에 직접 붙인 리스너는 렌더 시점에 사라진다.
+     document에 한 번만 위임해 두면 DOM이 몇 번 교체돼도 계속 동작한다. -->
 <script>
 (function () {
-  function init() {
-    if (window.__kwLeadBound) return;
-    window.__kwLeadBound = true;
+  if (window.__kwLeadDelegated) return;
+  window.__kwLeadDelegated = true;
 
-  // 광고 유입 경로 기억 (첫 진입 시 URL 파라미터를 저장해 두고 폼 전송 때 함께 보냄)
-  const SRC_KEY = 'kw_src';
-  const readSource = () => {
+  var FORMS = {
+    quickform: { thanks: 'quickthanks', err: 'quickerror', type: '체크리스트 신청' },
+    leadform:  { thanks: 'leadthanks',  err: 'leaderror',  type: '' }
+  };
+  var SRC_KEY = 'kw_src';
+
+  function readSource() {
     try {
-      const q = new URLSearchParams(location.search);
-      const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-      const got = {};
-      keys.forEach((k) => { if (q.get(k)) got[k] = q.get(k); });
-      if (q.get('fbclid')) got.fbclid = q.get('fbclid');
+      var q = new URLSearchParams(location.search);
+      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
+      var got = {}, i, v;
+      for (i = 0; i < keys.length; i++) {
+        v = q.get(keys[i]);
+        if (v) got[keys[i]] = v;
+      }
       if (Object.keys(got).length) {
         got.landed_at = new Date().toISOString();
-        sessionStorage.setItem(SRC_KEY, JSON.stringify(got));
+        try { sessionStorage.setItem(SRC_KEY, JSON.stringify(got)); } catch (e) {}
         return got;
       }
-      const saved = sessionStorage.getItem(SRC_KEY);
+      var saved = null;
+      try { saved = sessionStorage.getItem(SRC_KEY); } catch (e) {}
       if (saved) return JSON.parse(saved);
       if (document.referrer) return { referrer: document.referrer };
     } catch (e) {}
     return {};
-  };
-  const adSource = readSource();
+  }
+  var adSource = readSource();
 
-  // 상담 폼 — 상단 빠른 질문 폼과 하단 상세 폼이 같은 로직을 씁니다.
-  const val = (f, key) => (f[key] && typeof f[key].value === 'string') ? f[key].value : '';
-  const bindLeadForm = (formId, thanksId, errId, fixedType) => {
-    const form = document.getElementById(formId);
-    if (!form) return;
-    const thanks = document.getElementById(thanksId);
-    const errBox = document.getElementById(errId);
-    form.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      if (form.website && form.website.value) return; // honeypot
-      const btn = form.querySelector('button[type="submit"]');
-      const btnLabel = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = '전송 중...';
-      if (errBox) errBox.style.display = 'none';
-      try {
-        const res = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: val(form, 'name'),
-            phone: val(form, 'phone'),
-            email: val(form, 'email'),
-            status: val(form, 'status'),
-            type: fixedType || val(form, 'type'),
-            memo: val(form, 'memo'),
-            source: adSource,
-          }),
-        });
-        let data = {};
-        try { data = await res.json(); } catch (e) {}
+  function val(form, key) {
+    var el = form.elements ? form.elements[key] : null;
+    return (el && typeof el.value === 'string') ? el.value : '';
+  }
+
+  document.addEventListener('submit', function (ev) {
+    var form = ev.target;
+    if (!form || !form.id || !FORMS[form.id]) return;
+    ev.preventDefault();
+
+    var cfg = FORMS[form.id];
+    if (val(form, 'website')) return; // 허니팟
+
+    var btn = form.querySelector('button[type="submit"]');
+    var label = btn ? btn.textContent : '';
+    var errBox = document.getElementById(cfg.err);
+    if (btn) { btn.disabled = true; btn.textContent = '전송 중...'; }
+    if (errBox) errBox.style.display = 'none';
+
+    fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: val(form, 'name'),
+        phone: val(form, 'phone'),
+        email: val(form, 'email'),
+        status: val(form, 'status'),
+        type: cfg.type || val(form, 'type'),
+        memo: val(form, 'memo'),
+        source: adSource
+      })
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
         if (!res.ok || !data.ok) throw new Error(data.error || '전송 실패');
-        // 페이지 이동 없이 전송되므로 성공 시점에 직접 Lead 이벤트를 보냄
         if (window.fbq) { try { fbq('track', 'Lead'); } catch (e) {} }
         form.style.display = 'none';
-        if (thanks) thanks.style.display = 'block';
-      } catch (e) {
-        if (errBox) {
-          errBox.innerHTML = '전송 중 문제가 발생했습니다. <a href="tel:010-4572-7449" style="color:#E4CFA6;text-decoration:underline;">010-4572-7449</a>로 전화 주세요.';
-          errBox.style.display = 'block';
-        }
-        btn.disabled = false;
-        btn.textContent = btnLabel;
+        var th = document.getElementById(cfg.thanks);
+        if (th) th.style.display = 'block';
+      });
+    }).catch(function () {
+      if (errBox) {
+        errBox.innerHTML = '전송 중 문제가 발생했습니다. <a href="tel:010-4572-7449" style="color:#E4CFA6;text-decoration:underline;">010-4572-7449</a>로 전화 주세요.';
+        errBox.style.display = 'block';
       }
+      if (btn) { btn.disabled = false; btn.textContent = label; }
     });
-  };
-  bindLeadForm('quickform', 'quickthanks', 'quickerror', '체크리스트 신청');
-  bindLeadForm('leadform', 'leadthanks', 'leaderror');
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  });
 })();
 </script>
 </body>
