@@ -161,12 +161,12 @@ src="https://www.facebook.com/tr?id=1565517118443607&ev=PageView&noscript=1"></n
           <label>웹사이트</label>
           <input type="text" name="website" tabindex="-1" autocomplete="off">
         </div>
-        <input required="" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="연락처 (010-0000-0000)" style="width:100%;background:#0D1014;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:15px 16px;color:#E8E6E1;font-family:inherit;font-size:16px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
-        <input name="email" type="email" inputmode="email" autocomplete="email" placeholder="이메일 (선택 · 적어주시면 메일로 보내드립니다)" style="width:100%;background:#0D1014;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:15px 16px;color:#E8E6E1;font-family:inherit;font-size:16px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
+        <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="연락처 (010-0000-0000)" style="width:100%;background:#0D1014;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:15px 16px;color:#E8E6E1;font-family:inherit;font-size:16px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
+        <input name="email" type="email" inputmode="email" autocomplete="email" placeholder="이메일 (name@example.com)" style="width:100%;background:#0D1014;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:15px 16px;color:#E8E6E1;font-family:inherit;font-size:16px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
         <textarea name="memo" rows="2" placeholder="궁금한 점이 있다면 함께 적어주세요 (선택)" style="width:100%;background:#0D1014;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:15px 16px;color:#E8E6E1;font-family:inherit;font-size:16px;line-height:1.6;outline:none;resize:vertical;transition:border-color .2s ease;" style-focus="border-color:#C9A063;"></textarea>
         <button type="submit" style="width:100%;background:linear-gradient(180deg,#C9A063,#B8935A);color:#0D1014;font-weight:800;font-size:16px;padding:16px 30px;border:none;border-radius:4px;cursor:pointer;font-family:inherit;box-shadow:0 10px 26px rgba(201,160,99,.22);">체크리스트 받기</button>
         <p id="quickerror" style="display:none;font-size:13px;color:#E08585;line-height:1.6;"></p>
-        <p style="font-size:12.5px;color:#7C838F;line-height:1.6;">자료 발송과 답변에만 사용합니다. 영업 전화는 하지 않습니다.</p>
+        <p style="font-size:12.5px;color:#7C838F;line-height:1.6;">연락처와 이메일 중 <b style="color:#AEB4BF;">편한 쪽 하나만</b> 적어주시면 됩니다. 자료 발송과 답변에만 사용하고, 영업 전화는 하지 않습니다.</p>
       </form>
 
       <div id="quickthanks" style="display:none;margin-top:26px;padding:22px 20px;background:rgba(201,160,99,.08);border:1px solid rgba(201,160,99,.3);border-radius:4px;">
@@ -454,11 +454,11 @@ src="https://www.facebook.com/tr?id=1565517118443607&ev=PageView&noscript=1"></n
             <input required="" name="name" autocomplete="name" placeholder="예: 홍길동 / ○○헤어" style="width:100%;background:#151920;border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 16px;color:#E8E6E1;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
           </div>
           <div>
-            <label style="display:block;font-size:13.5px;color:#B7BDC7;margin-bottom:8px;">연락처</label>
-            <input required="" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" style="width:100%;background:#151920;border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 16px;color:#E8E6E1;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
+            <label style="display:block;font-size:13.5px;color:#B7BDC7;margin-bottom:8px;">연락처 <span style="color:#7C838F;">(이메일과 둘 중 하나만)</span></label>
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" style="width:100%;background:#151920;border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 16px;color:#E8E6E1;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
           </div>
           <div>
-            <label style="display:block;font-size:13.5px;color:#B7BDC7;margin-bottom:8px;">이메일 <span style="color:#7C838F;">(선택 · 자료 받으실 주소)</span></label>
+            <label style="display:block;font-size:13.5px;color:#B7BDC7;margin-bottom:8px;">이메일 <span style="color:#7C838F;">(연락처와 둘 중 하나만)</span></label>
             <input name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" style="width:100%;background:#151920;border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 16px;color:#E8E6E1;font-family:inherit;font-size:15px;outline:none;transition:border-color .2s ease;" style-focus="border-color:#C9A063;">
           </div>
           <div>
@@ -695,6 +695,34 @@ class Component extends DCLogic {
     return (el && typeof el.value === 'string') ? el.value : '';
   }
 
+  // 퍼널 측정 — 어디서 빠지는지 보려고 두 지점을 기록한다.
+  var fired = {};
+  function once(name) {
+    if (fired[name]) return;
+    fired[name] = true;
+    if (window.fbq) { try { fbq('trackCustom', name); } catch (e) {} }
+  }
+  function checkFormVisible() {
+    if (fired.ViewForm) return;
+    var f = document.getElementById('quickform');
+    if (!f) return;
+    var r = f.getBoundingClientRect();
+    if (r.top < (window.innerHeight || 0) && r.bottom > 0) once('ViewForm');
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; checkFormVisible(); });
+  }, { passive: true });
+  window.addEventListener('load', checkFormVisible);
+  setTimeout(checkFormVisible, 1500);
+
+  document.addEventListener('focusin', function (ev) {
+    var f = ev.target && ev.target.form;
+    if (f && f.id && FORMS[f.id]) once('StartForm');
+  });
+
   document.addEventListener('submit', function (ev) {
     var form = ev.target;
     if (!form || !form.id || !FORMS[form.id]) return;
@@ -702,6 +730,15 @@ class Component extends DCLogic {
 
     var cfg = FORMS[form.id];
     if (val(form, 'website')) return; // 허니팟
+
+    var errEl = document.getElementById(cfg.err);
+    if (!val(form, 'phone').trim() && !val(form, 'email').trim()) {
+      if (errEl) {
+        errEl.textContent = '연락처나 이메일 중 하나는 적어주세요.';
+        errEl.style.display = 'block';
+      }
+      return;
+    }
 
     var btn = form.querySelector('button[type="submit"]');
     var label = btn ? btn.textContent : '';
