@@ -36,6 +36,9 @@ src="https://www.facebook.com/tr?id=1565517118443607&ev=PageView&noscript=1"></n
   @keyframes floatIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
   @media (max-width:960px){
     .aboutgrid, .contactgrid { grid-template-columns:1fr !important; gap:44px !important; }
+    /* 모바일: 대표 사진을 헤드라인 위에 작게 — 첫 화면에서 바로 보이도록 */
+    .herogrid { grid-template-columns:1fr !important; gap:26px !important; padding-top:96px !important; }
+    .heroportrait { order:0 !important; width:min(58vw,260px); }
     .svcgrid { grid-template-columns:repeat(2,1fr) !important; }
     .statgrid { grid-template-columns:repeat(2,1fr) !important; row-gap:40px !important; }
     .procgrid { grid-template-columns:repeat(2,1fr) !important; row-gap:44px !important; }
@@ -106,8 +109,15 @@ src="https://www.facebook.com/tr?id=1565517118443607&ev=PageView&noscript=1"></n
     </div>
     <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(10,12,16,.94) 0%,rgba(13,16,20,.82) 46%,rgba(13,16,20,.35) 100%);"></div>
     <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(10,12,16,.5) 0%,rgba(10,12,16,0) 30%,rgba(10,12,16,.7) 100%);"></div>
-    <div style="position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:120px 28px 90px;width:100%;">
-      <div style="max-width:720px;">
+    <div class="herogrid" style="position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:120px 28px 90px;width:100%;display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:center;">
+      <div class="heroportrait" style="order:2;opacity:0;animation:heroUp .7s ease-out .25s forwards;position:relative;border-radius:4px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 70px rgba(0,0,0,.5);border:1px solid rgba(201,160,99,.3);">
+        <img src="./assets/hero-portrait.jpg" alt="대표 세무사 장근준" fetchpriority="high" style="display:block;width:100%;height:100%;object-fit:cover;object-position:center top;">
+        <div style="position:absolute;left:0;right:0;bottom:0;padding:40px 22px 18px;background:linear-gradient(180deg,rgba(13,16,20,0),rgba(13,16,20,.85));">
+          <div style="font-size:12px;letter-spacing:2px;color:#C9A063;font-weight:600;">대표 세무사</div>
+          <div style="margin-top:4px;font-size:20px;font-weight:700;color:#F2EFEA;">장근준</div>
+        </div>
+      </div>
+      <div style="max-width:720px;order:1;">
         <div style="opacity:0;animation:heroUp .6s ease-out .05s forwards;display:inline-flex;align-items:center;gap:14px;margin-bottom:24px;">
           <span style="width:30px;height:1px;background:#C9A063;"></span>
           <span style="font-size:13px;font-weight:600;letter-spacing:2.8px;color:#C9A063;">전국 어디서나 · 미용실 전문 세무회계</span>
@@ -343,8 +353,8 @@ src="https://www.facebook.com/tr?id=1565517118443607&ev=PageView&noscript=1"></n
     </div>
     <div data-reveal="" style="position:relative;">
       <div style="position:relative;border-radius:4px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px rgba(0,0,0,.45);border:1px solid rgba(201,160,99,.18);">
-        <image-slot id="about-img" shape="rect" fit="cover" src="./assets/about-desk.jpg" placeholder="정장 차림·서류·계산기 등 신뢰감 있는 비즈니스 이미지"></image-slot>
-        <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(13,16,20,.15),rgba(13,16,20,.55));"></div>
+        <img src="./assets/about-portrait.jpg" alt="대표 세무사 장근준" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+        <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(13,16,20,0) 60%,rgba(13,16,20,.35));"></div>
       </div>
       
     </div>
