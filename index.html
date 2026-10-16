@@ -686,28 +686,67 @@ class Component extends DCLogic {
     quickform: { thanks: 'quickthanks', err: 'quickerror', type: '무료 상담 신청' },
     leadform:  { thanks: 'leadthanks',  err: 'leaderror',  type: '' }
   };
-  var SRC_KEY = 'kw_src';
+  var SRC_KEY = 'kw_src';          // 이번 방문의 유입 정보
+  var FIRST_KEY = 'kw_src_first';  // 이 브라우저가 처음 들어온 경로
 
-  function readSource() {
+  // 네이버 검색광고 자동추적(n_query·n_keyword·n_rank 등), 수동 utm 태깅,
+  // 메타·구글 클릭 ID를 한 번에 수집한다. 뭐가 붙어 올지 모르니 패턴으로 받는다.
+  var EXTRA_KEYS = ['fbclid', 'gclid', 'NaPm'];
+
+  function collectParams() {
+    var got = {};
     try {
       var q = new URLSearchParams(location.search);
-      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
-      var got = {}, i, v;
-      for (i = 0; i < keys.length; i++) {
-        v = q.get(keys[i]);
-        if (v) got[keys[i]] = v;
-      }
-      if (Object.keys(got).length) {
-        got.landed_at = new Date().toISOString();
-        try { sessionStorage.setItem(SRC_KEY, JSON.stringify(got)); } catch (e) {}
-        return got;
-      }
-      var saved = null;
-      try { saved = sessionStorage.getItem(SRC_KEY); } catch (e) {}
-      if (saved) return JSON.parse(saved);
-      if (document.referrer) return { referrer: document.referrer };
+      q.forEach(function (v, k) {
+        if (!v) return;
+        if (/^(utm_|n_)/i.test(k) || EXTRA_KEYS.indexOf(k) !== -1) {
+          got[k] = String(v).slice(0, 300);
+        }
+      });
     } catch (e) {}
-    return {};
+    return got;
+  }
+
+  function store(which, key, value) {
+    try {
+      (which === 'local' ? localStorage : sessionStorage).setItem(key, JSON.stringify(value));
+    } catch (e) {}
+  }
+  function load(which, key) {
+    try {
+      var raw = (which === 'local' ? localStorage : sessionStorage).getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function readSource() {
+    var got = collectParams();
+    var hasParams = Object.keys(got).length > 0;
+    got.landed_at = new Date().toISOString();
+    got.landing = location.pathname + location.search;
+    if (document.referrer) got.referrer = document.referrer;
+
+    // 광고 파라미터를 달고 들어온 방문이면 이번 세션 값을 새로 쓴다.
+    // 파라미터 없이 페이지 안을 돌아다니는 중이면 처음 저장한 값을 유지한다.
+    var current = hasParams ? null : load('session', SRC_KEY);
+    if (!current) {
+      current = got;
+      store('session', SRC_KEY, current);
+    }
+    if (!load('local', FIRST_KEY)) store('local', FIRST_KEY, current);
+
+    // 광고로 처음 알게 된 뒤 며칠 지나 직접 들어와 문의하는 경우가 많다.
+    // 그 첫 경로를 같이 보내 광고 성과가 '직접 유입'으로 사라지지 않게 한다.
+    var first = load('local', FIRST_KEY);
+    if (first && first.landed_at && first.landed_at !== current.landed_at) {
+      var merged = {}, k;
+      for (k in current) {
+        if (Object.prototype.hasOwnProperty.call(current, k)) merged[k] = current[k];
+      }
+      merged.first_touch = first;
+      return merged;
+    }
+    return current;
   }
   var adSource = readSource();
 
