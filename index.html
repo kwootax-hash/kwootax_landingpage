@@ -29,6 +29,71 @@ fbq('track','PageView');
 <noscript><img height="1" width="1" style="display:none" alt=""
 src="https://www.facebook.com/tr?id=1565517118443607&ev=PageView&noscript=1"></noscript>
 <!-- End Meta Pixel -->
+<!-- 네이버 프리미엄 로그분석 (무료)
+     관리시스템에서 발급받은 계정 ID를 KW_NAVER_WA에 넣으면 켜집니다.
+     비어 있으면 스크립트를 아예 내려받지 않으므로 그대로 배포해도 안전합니다.
+     자세한 설정 방법은 README의 '네이버 프리미엄 로그분석' 항목 참고. -->
+<script>
+  window.KW_NAVER_WA = '';          // 예: 's_1a2b3c4d5e6f' — 발급받은 계정 ID
+  window.KW_NAVER_CONV_TYPE = '2';  // 전환 유형. 발급받은 전환 스크립트의 값과 맞출 것
+  window.KW_NAVER_CONV_VALUE = '0'; // 전환 가치(원). 상담 신청은 금액이 없어 0
+</script>
+<script>
+(function () {
+  var WA = window.KW_NAVER_WA;
+  window.kwNaverConv = function () {};  // 미설정 상태에서도 호출만 조용히 삼킨다
+  if (!WA) return;
+
+  var ready = false, queued = false, sent = false;
+
+  function base() {
+    if (!window.wcs_add) window.wcs_add = {};
+    window.wcs_add.wa = WA;
+    // inflow()는 도메인을 넘기는 형태와 생략하는 형태가 모두 쓰인다.
+    // 발급 스크립트에 도메인이 적혀 있으면 KW_NAVER_INFLOW_DOMAIN에 넣어주면 된다.
+    if (window.wcs && window.wcs.inflow) {
+      if (window.KW_NAVER_INFLOW_DOMAIN) window.wcs.inflow(window.KW_NAVER_INFLOW_DOMAIN);
+      else window.wcs.inflow();
+    }
+  }
+
+  function pageview() {
+    try {
+      if (!window.wcs_do) return;
+      base();
+      window.wcs_do();
+    } catch (e) {}
+  }
+
+  function conversion() {
+    try {
+      if (sent || !window.wcs_do || !window.wcs || !window.wcs.cnv) return;
+      sent = true;
+      base();
+      var nasa = {};
+      nasa.cnv = window.wcs.cnv(window.KW_NAVER_CONV_TYPE || '2', window.KW_NAVER_CONV_VALUE || '0');
+      window.wcs_do(nasa);
+    } catch (e) {}
+  }
+
+  // 상담 신청이 접수되는 순간 호출된다. 스크립트가 아직 안 붙었으면 받아놨다가 보낸다.
+  window.kwNaverConv = function () {
+    if (ready) conversion();
+    else queued = true;
+  };
+
+  var el = document.createElement('script');
+  el.async = true;
+  el.src = 'https://wcs.naver.net/wcslog.js';
+  el.onload = function () {
+    ready = true;
+    pageview();
+    if (queued) { queued = false; conversion(); }
+  };
+  document.head.appendChild(el);
+})();
+</script>
+<!-- End 네이버 프리미엄 로그분석 -->
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:#0D1014; color:#E8E6E1; font-family:'Pretendard','Pretendard Variable',sans-serif; -webkit-font-smoothing:antialiased; }
@@ -822,6 +887,7 @@ class Component extends DCLogic {
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (!res.ok || !data.ok) throw new Error(data.error || '전송 실패');
         if (window.fbq) { try { fbq('track', 'Lead'); } catch (e) {} }
+        if (window.kwNaverConv) { try { kwNaverConv(); } catch (e) {} }
         form.style.display = 'none';
         var th = document.getElementById(cfg.thanks);
         if (th) th.style.display = 'block';
