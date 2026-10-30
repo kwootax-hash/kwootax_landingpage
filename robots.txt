@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kwootax-landingpage-86cn.vercel.app/sitemap.xml
