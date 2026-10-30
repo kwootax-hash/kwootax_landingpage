@@ -1,0 +1,414 @@
+/* 미용실 창업 세무 가이드 — 랜딩페이지와 같은 색·서체·모서리를 쓴다. */
+:root {
+  --ink: #0D1014;
+  --panel: #151920;
+  --panel-soft: #12161D;
+  --line: rgba(255, 255, 255, .06);
+  --line-strong: rgba(255, 255, 255, .1);
+  --gold: #C9A063;
+  --gold-soft: #E0BE85;
+  --text: #E8E6E1;
+  --text-mid: #C3C8D0;
+  --text-dim: #9AA0AB;
+  --text-faint: #7C838F;
+  --radius: 4px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Pretendard', 'Pretendard Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 17px;
+  line-height: 1.85;
+  letter-spacing: -.1px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ── 상단 바 ─────────────────────────────── */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(13, 16, 20, .88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar-in {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand { display: flex; align-items: center; gap: 11px; }
+
+.mark {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -.5px;
+}
+
+.brand .name, .foot-brand .name { font-weight: 800; font-size: 16px; }
+
+.bar-nav { display: flex; align-items: center; gap: 20px; }
+
+.bar-nav > a:first-child {
+  color: #A8AEB8;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: .6px;
+}
+
+.bar-nav > a:first-child:hover { color: var(--gold); }
+
+.btn-sm {
+  background: linear-gradient(180deg, #C9A063, #B8935A);
+  color: #14181F;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 10px 17px;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(201, 160, 99, .18);
+  white-space: nowrap;
+}
+
+/* ── 공통 레이아웃 ───────────────────────── */
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
+
+.crumb {
+  margin: 34px 0 0;
+  font-size: 13px;
+  color: var(--text-faint);
+  letter-spacing: .2px;
+}
+
+.crumb a:hover { color: var(--gold); }
+.crumb span { margin: 0 6px; opacity: .5; }
+
+.kicker {
+  margin: 26px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  color: var(--gold);
+}
+
+.kicker::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  flex: none;
+  background: var(--gold);
+}
+
+h1 {
+  margin: 0 0 22px;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.38;
+  letter-spacing: -.8px;
+}
+
+.thin { font-weight: 300; color: var(--gold); }
+
+/* ── 목록 페이지 ─────────────────────────── */
+.lead { padding-bottom: 8px; }
+
+.lead-txt {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.cards {
+  margin: 40px 0 0;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.card:hover { border-color: rgba(201, 160, 99, .4); transform: translateY(-2px); }
+
+.thumb {
+  width: 104px;
+  height: 104px;
+  flex: none;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--panel-soft);
+}
+
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.num {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 7px;
+}
+
+.card h2 {
+  margin: 0 0 7px;
+  font-size: 17.5px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -.3px;
+}
+
+.card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-faint);
+}
+
+/* ── 글 본문 ─────────────────────────────── */
+.cover {
+  margin: 0 0 36px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.body > :first-child { margin-top: 0; }
+
+.body p { margin: 0 0 22px; color: var(--text-mid); }
+
+.body h2 {
+  margin: 48px 0 18px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -.4px;
+  color: var(--text);
+}
+
+.body strong { color: var(--text); font-weight: 700; }
+
+.body ul {
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.body li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 10px;
+  color: var(--text-mid);
+}
+
+.body li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 14px;
+  width: 5px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.shot {
+  margin: 30px 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.faq {
+  margin: 0 0 12px;
+  padding: 20px 22px;
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.faq .q {
+  margin: 0 0 8px;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.faq .a {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--text-dim);
+}
+
+/* ── 상담 유도 ───────────────────────────── */
+.cta {
+  margin: 48px 0 0;
+  padding: 30px 26px;
+  background: linear-gradient(180deg, #171B24, #12161D);
+  border: 1px solid rgba(201, 160, 99, .22);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.cta.wide { margin-top: 56px; }
+
+.cta-label {
+  margin: 0 0 8px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--gold-soft);
+  letter-spacing: .2px;
+}
+
+.cta-line {
+  margin: 0 0 22px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text-dim);
+}
+
+.btn {
+  display: inline-block;
+  background: linear-gradient(180deg, #C9A063, #B8935A);
+  color: #14181F;
+  font-weight: 700;
+  font-size: 15.5px;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(201, 160, 99, .24);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.btn:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(201, 160, 99, .36); }
+
+.note {
+  margin: 26px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text-faint);
+}
+
+/* ── 이전·다음 글 ────────────────────────── */
+.seqs {
+  margin-top: 44px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.seq {
+  padding: 18px 20px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color .2s ease;
+}
+
+.seq:hover { border-color: rgba(201, 160, 99, .4); }
+
+.seq span {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.seq strong {
+  display: block;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--text-mid);
+}
+
+.seq.next { text-align: right; }
+
+/* ── 바닥 ────────────────────────────────── */
+.foot {
+  background: #0A0C0F;
+  border-top: 1px solid rgba(255, 255, 255, .05);
+}
+
+.foot-in {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 52px 16px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.foot-brand { display: flex; align-items: center; gap: 11px; }
+
+.foot-info {
+  font-size: 14px;
+  line-height: 2;
+  color: #8B929E;
+}
+
+.foot-label { color: #C6CBD3; font-weight: 700; margin-bottom: 6px; }
+
+.foot-info a:hover { color: var(--gold); }
+
+.foot-end {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 16px 34px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: #6B7280;
+}
+
+@media (max-width: 640px) {
+  body { font-size: 16.5px; }
+  h1 { font-size: 27px; }
+  .body h2 { font-size: 19.5px; margin-top: 40px; }
+  .bar-nav > a:first-child { display: none; }
+  .card { flex-direction: column; align-items: stretch; gap: 14px; }
+  .thumb { width: 100%; height: 170px; }
+  .seq.next { text-align: left; }
+  .cta { padding: 26px 20px; }
+}
