@@ -412,3 +412,77 @@ h1 {
   .seq.next { text-align: left; }
   .cta { padding: 26px 20px; }
 }
+
+/* ── 업종 전용 페이지 ────────────────────── */
+.inline-link { color: var(--gold); border-bottom: 1px solid rgba(201, 160, 99, .35); }
+.inline-link:hover { border-bottom-color: var(--gold); }
+
+.cta-sub { margin: 18px 0 0; font-size: 14px; }
+.cta-sub a { color: var(--gold-soft); border-bottom: 1px solid rgba(224, 190, 133, .3); }
+.cta-sub a:hover { border-bottom-color: var(--gold-soft); }
+
+.svc {
+  margin: 0 0 22px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+}
+
+.svc-item {
+  padding: 20px 20px 22px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.svc-item h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.svc-item p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--text-faint);
+}
+
+.guide-links {
+  margin: 0 0 22px;
+  padding: 6px 0 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.guide-links a {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 15px 20px;
+  background: var(--panel-soft);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--text-mid);
+  transition: background .18s ease, color .18s ease;
+}
+
+.guide-links a:hover { background: var(--panel); color: var(--text); }
+
+.guide-links b {
+  flex: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  color: var(--gold);
+}
+
+/* 업종 페이지는 리드 문단과 본문 사이에 숨 쉴 자리가 필요하다.
+   글 페이지는 표지 이미지가 그 역할을 해서 첫 요소를 붙여 둔다. */
+.body.spaced > :first-child { margin-top: 42px; }
