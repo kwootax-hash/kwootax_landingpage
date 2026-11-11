@@ -5,12 +5,14 @@
 고치고 저장소 루트에서 `python tools/build_blog.py`를 돌리면 된다.
 원고 위치가 다르면 BLOG_SRC 환경변수로 넘긴다.
 """
+import email.utils
 import html
 import io
 import json
 import os
 import re
 import shutil
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -170,6 +172,8 @@ HEAD = """<!DOCTYPE html>
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
 <meta name="twitter:image" content="{image}">
+
+<link rel="alternate" type="application/rss+xml" title="미용실 창업 세무 가이드" href="/blog/rss.xml">
 
 <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin="">
 <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
@@ -390,6 +394,45 @@ def build_index(posts):
     return url
 
 
+def build_rss(posts):
+    """네이버 서치어드바이저는 사이트맵과 별도로 RSS를 받아 새 글을 먼저 집어간다."""
+    pub = email.utils.formatdate(
+        time.mktime(time.strptime(PUBLISHED, "%Y-%m-%d")), usegmt=True
+    )
+    items = []
+    for p in posts:
+        link = "%s/blog/%s/" % (SITE, p["slug"])
+        items.append(
+            "    <item>\n"
+            "      <title>%s</title>\n"
+            "      <link>%s</link>\n"
+            "      <guid isPermaLink=\"true\">%s</guid>\n"
+            "      <description>%s</description>\n"
+            "      <pubDate>%s</pubDate>\n"
+            "    </item>"
+            % (
+                html.escape(p["title"], quote=False), link, link,
+                html.escape(p["desc"], quote=False), pub,
+            )
+        )
+
+    feed = """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>%s | 세무회계 경우</title>
+    <link>%s/blog/</link>
+    <description>미용실을 처음 여는 디자이너를 위한 세무 가이드입니다.</description>
+    <language>ko</language>
+    <lastBuildDate>%s</lastBuildDate>
+%s
+  </channel>
+</rss>
+""" % (SERIES, SITE, email.utils.formatdate(usegmt=True), "\n".join(items))
+
+    io.open(os.path.join(OUT, "rss.xml"), "w", encoding="utf-8").write(feed)
+    return "%s/blog/rss.xml" % SITE
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
 
@@ -403,6 +446,7 @@ def main():
     urls = [build_index(posts)]
     for i, p in enumerate(posts):
         urls.append(build_post(p, posts[i - 1] if i else None, posts[i + 1] if i + 1 < len(posts) else None))
+    urls.append(build_rss(posts))
 
     print("생성한 주소 %d개" % len(urls))
     for u in urls:
