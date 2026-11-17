@@ -267,6 +267,8 @@ h1 {
 
 .body .tbl tbody td:first-child { color: var(--text); font-weight: 600; }
 
+.body .tbl .dim { color: var(--text-dim, #7C838F); font-weight: 400; font-size: 12.5px; }
+
 .body ul {
   margin: 0 0 22px;
   padding: 0;

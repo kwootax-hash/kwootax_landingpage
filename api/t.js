@@ -128,8 +128,10 @@ function suspicion(v) {
 /* ---- Upstash Redis (있을 때만) ----
  * REST 방식이라 패키지를 깔 필요가 없다. 환경변수가 없으면 통째로 건너뛴다.
  */
-const R_URL = process.env.UPSTASH_REDIS_REST_URL;
-const R_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+// Vercel 마켓플레이스로 Upstash를 붙이면 변수 이름이 KV_REST_API_* 로 들어온다.
+// 수동으로 넣었을 때 쓰는 UPSTASH_* 도 같이 받아, 어느 쪽으로 설정해도 돌아가게 한다.
+const R_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const R_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const redisOn = !!(R_URL && R_TOKEN);
 
 async function redis(cmd) {
