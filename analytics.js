@@ -129,4 +129,78 @@
    */
   setTimeout(function () { kwLog('engaged_15s', null, true); }, 15000);
   setTimeout(function () { kwLog('engaged_60s', null, true); }, 60000);
+
+  /* ---------- 서버 방문 기록 (/api/t) ----------
+   * GA4도 Clarity도 방문자 IP는 주지 않는다. 그런데 네이버 무효클릭 문의는
+   * IP를 요구한다. 그래서 우리 서버에 한 건씩 따로 적는다.
+   *
+   * 여기서 보내는 건 "브라우저가 하는 말"일 뿐이고, IP·User-Agent 같은
+   * 위조하기 어려운 값은 서버가 직접 읽는다. api/t.js 참고.
+   */
+  var started = Date.now();
+  var act = { clicks: 0, moves: 0, scrollMax: 0 };
+
+  document.addEventListener('click', function () { act.clicks += 1; }, true);
+  document.addEventListener('mousemove', function () { act.moves += 1; }, { passive: true, capture: true });
+  document.addEventListener('touchstart', function () { act.moves += 1; }, { passive: true, capture: true });
+  window.addEventListener('scroll', function () {
+    var doc = document.documentElement;
+    var total = doc.scrollHeight - window.innerHeight;
+    if (total <= 0) return;
+    var pct = Math.round((window.scrollY || doc.scrollTop) / total * 100);
+    if (pct > act.scrollMax) act.scrollMax = Math.min(pct, 100);
+  }, { passive: true });
+
+  function params() {
+    var out = { referrer: document.referrer || '' };
+    try {
+      var sp = new URLSearchParams(location.search);
+      sp.forEach(function (val, key) {
+        // 광고가 붙이는 파라미터만 추린다. 엉뚱한 값까지 서버로 보내지 않게.
+        if (/^(n_[a-z_]+|NaPm|utm_[a-z]+|gclid|fbclid)$/i.test(key)) out[key] = String(val).slice(0, 300);
+      });
+    } catch (e) {}
+    return out;
+  }
+
+  var reported = false;
+  function report() {
+    if (reported) return;
+    reported = true;
+    var payload = {
+      landing: location.origin + location.pathname,
+      q: params(),
+      dwell_ms: Date.now() - started,
+      clicks: act.clicks,
+      moves: act.moves,
+      scroll_max: act.scrollMax,
+      screen_w: (window.screen && screen.width) || 0,
+      screen_h: (window.screen && screen.height) || 0,
+      hw: navigator.hardwareConcurrency || 0,
+      langs: (navigator.languages && navigator.languages.length) || 0,
+      touch_points: navigator.maxTouchPoints || 0,
+      webdriver: navigator.webdriver === true,
+      tz: ''
+    };
+    try { payload.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+
+    var body = JSON.stringify(payload);
+    // 페이지를 떠나는 중에도 확실히 나가야 해서 sendBeacon을 먼저 쓴다.
+    try {
+      if (navigator.sendBeacon &&
+          navigator.sendBeacon('/api/t', new Blob([body], { type: 'application/json' }))) return;
+    } catch (e) {}
+    try {
+      fetch('/api/t', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: body, keepalive: true });
+    } catch (e) {}
+  }
+
+  // 떠날 때 보낸다. 체류 시간과 행동이 다 쌓인 뒤라야 봇인지 가릴 수 있다.
+  window.addEventListener('pagehide', report);
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') report();
+  });
+  // 탭을 닫지 않고 오래 열어두는 경우를 위해 90초에 한 번은 보낸다.
+  setTimeout(report, 90000);
 })();
