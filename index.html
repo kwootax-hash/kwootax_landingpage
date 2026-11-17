@@ -56,6 +56,8 @@
 }
 </script>
 <script src="./support.js"></script>
+<!-- GA4 + Clarity + 클릭 수집. 아이디는 analytics.js 위쪽 두 줄에 있다. -->
+<script src="/analytics.js"></script>
 </head>
 <body>
 <x-dc>
@@ -850,6 +852,8 @@ class Component extends DCLogic {
   function once(name) {
     if (fired[name]) return;
     fired[name] = true;
+    // analytics.js의 kwLog가 GA4·Clarity·메타 픽셀 세 곳에 같이 보낸다.
+    if (window.kwLog) { kwLog(name); return; }
     if (window.fbq) { try { fbq('trackCustom', name); } catch (e) {} }
   }
   function checkFormVisible() {
@@ -912,6 +916,8 @@ class Component extends DCLogic {
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (!res.ok || !data.ok) throw new Error(data.error || '전송 실패');
         if (window.fbq) { try { fbq('track', 'Lead'); } catch (e) {} }
+        // GA4 쪽 전환 이벤트. 이름은 GA4가 쓰는 표준명을 그대로 쓴다.
+        if (window.kwLog) { kwLog('generate_lead', { form: form.id }); }
         if (window.kwNaverConv) { try { kwNaverConv(); } catch (e) {} }
         form.style.display = 'none';
         var th = document.getElementById(cfg.thanks);

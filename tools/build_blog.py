@@ -178,6 +178,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin="">
 <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <link rel="stylesheet" href="/site.css">
+<script src="/analytics.js"></script>
 {jsonld}
 </head>
 <body>
