@@ -280,14 +280,14 @@ module.exports = async (req, res) => {
   if (redisOn) {
     const day = record.at_utc.slice(0, 10);
     await redis(['LPUSH', `hits:${day}`, JSON.stringify(record)]);
-    await redis(['EXPIRE', `hits:${day}`, String(60 * 60 * 24 * 400)]);  // 400일 보관
+    await redis(['EXPIRE', `hits:${day}`, String(60 * 60 * 24 * 365)]);  // 1년 보관 — 개인정보처리방침에 적은 기간과 맞춘다
     if (ip) {
       const c = await redis(['INCR', `ipcnt:${ip}`]);
       if (c === 1) await redis(['EXPIRE', `ipcnt:${ip}`, '3600']);
       repeats = Number(c) || 0;
       if (record.is_ad && repeats > 1) {
         await redis(['ZADD', `repeat:${day}`, String(repeats), ip]);
-        await redis(['EXPIRE', `repeat:${day}`, String(60 * 60 * 24 * 400)]);
+        await redis(['EXPIRE', `repeat:${day}`, String(60 * 60 * 24 * 365)]);
       }
     }
   }

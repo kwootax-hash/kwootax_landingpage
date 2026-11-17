@@ -223,7 +223,49 @@ h1 {
   color: var(--text);
 }
 
+.body h3 {
+  margin: 30px 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: -.2px;
+  color: var(--text);
+}
+
 .body strong { color: var(--text); font-weight: 700; }
+
+/* 개인정보처리방침처럼 항목과 값이 짝을 이루는 표.
+   좁은 화면에서는 가로로 밀어서 본다. 글자를 줄이면 읽을 수가 없다. */
+.tbl-wrap { margin: 0 0 22px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+.body .tbl {
+  width: 100%;
+  min-width: 420px;
+  margin: 0 0 22px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.tbl-wrap .tbl { margin: 0; }
+
+.body .tbl th,
+.body .tbl td {
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid rgba(255, 255, 255, .1);
+  color: var(--text-mid);
+}
+
+.body .tbl th {
+  background: rgba(201, 160, 99, .08);
+  color: var(--text);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.body .tbl tbody td:first-child { color: var(--text); font-weight: 600; }
 
 .body ul {
   margin: 0 0 22px;
