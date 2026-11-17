@@ -13,7 +13,7 @@
   'use strict';
 
   var GA4_ID = 'G-QDW6G1MEEV';           // Google Analytics 측정 ID (속성: 세무회계 경우)
-  var CLARITY_ID = 'CLARITY_PLACEHOLDER'; // Microsoft Clarity 프로젝트 ID
+  var CLARITY_ID = 'zex3dhmofi';         // Microsoft Clarity 프로젝트 ID
 
   var ON = function (id, mark) {
     return id && id.indexOf(mark) === -1;
