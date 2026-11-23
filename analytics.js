@@ -1,11 +1,12 @@
 /* 방문·클릭 기록 — 모든 페이지 공통.
  *
- * 세 가지를 한 파일에서 올린다.
+ * 네 가지를 한 파일에서 올린다.
  *   1) GA4            숫자. 유입경로별 방문, 이벤트 건수
  *   2) Clarity        클릭 히트맵과 세션 녹화
- *   3) 자체 클릭 수집  전화·카톡·CTA 버튼처럼 "눌렀는지"가 중요한 곳
+ *   3) 스마트로그      광고 클릭 로그와 부정클릭 판별 (국내 서비스)
+ *   4) 자체 클릭 수집  전화·카톡·CTA 버튼처럼 "눌렀는지"가 중요한 곳
  *
- * 아이디를 바꿀 일이 생기면 아래 두 줄만 고친다. 페이지 HTML은 건드릴 필요 없다.
+ * 아이디를 바꿀 일이 생기면 아래 세 줄만 고친다. 페이지 HTML은 건드릴 필요 없다.
  * 메타 픽셀과 네이버 로그분석은 index.html에 따로 들어가 있다 (네이버 쪽은
  * 광고 검수 대상이라 발급본을 그대로 둬야 해서 옮기지 않았다).
  */
@@ -14,6 +15,7 @@
 
   var GA4_ID = 'G-QDW6G1MEEV';           // Google Analytics 측정 ID (속성: 세무회계 경우)
   var CLARITY_ID = 'zex3dhmofi';         // Microsoft Clarity 프로젝트 ID
+  var SMLOG = { account: 'UHPT-301741', server: 'a300' };  // 스마트로그 (주식회사 스퀘어스)
 
   var ON = function (id, mark) {
     return id && id.indexOf(mark) === -1;
@@ -43,6 +45,26 @@
       t.src = 'https://www.clarity.ms/tag/' + i;
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, 'clarity', 'script', CLARITY_ID);
+  }
+
+  /* ---------- 스마트로그 ----------
+   * 발급본은 head에 그대로 붙이는 형태지만, 다른 도구와 같이 두려고 여기서 올린다.
+   * hpt_info 는 smart_renew.js 가 읽어가는 설정값이라 스크립트보다 먼저 있어야 한다.
+   *
+   * 비동기로 올려도 되는지 확인하고 넣었다. 스크립트 안에 document.write 가 있긴
+   * 한데 `document.body || document.write("<body></body>")` 꼴이라, body 가 이미
+   * 있는 시점에는 호출되지 않는다. 페이지를 지울 일은 없다.
+   *
+   * 자바스크립트를 끈 방문자용 픽셀(noscript)은 이 파일이 아예 실행되지 않으므로
+   * 각 페이지 HTML에 따로 박아 뒀다.
+   */
+  if (SMLOG.account) {
+    window.hpt_info = { '_account': SMLOG.account, '_server': SMLOG.server };
+    var sm = document.createElement('script');
+    sm.async = true;
+    sm.charset = 'utf-8';
+    sm.src = 'https://cdn.smlog.co.kr/core/smart_renew.js';
+    document.head.appendChild(sm);
   }
 
   /* ---------- 공통 기록 창구 ----------

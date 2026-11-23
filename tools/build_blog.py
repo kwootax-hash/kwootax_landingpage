@@ -213,6 +213,10 @@ FOOT = """<footer class="foot">
   </div>
   <div class="foot-end">© 2026 세무회계 경우. All rights reserved.</div>
 </footer>
+<!-- 스마트로그 — 자바스크립트를 끈 방문자용 픽셀. analytics.js가 실행되지
+     않는 경우라 각 페이지에 직접 박아 둔다. -->
+<noscript><img src="https://a300.smlog.co.kr/smart_bda.php?_account=301741"
+  style="display:none;width:0;height:0;" alt="" width="0" height="0" border="0"></noscript>
 </body>
 </html>
 """
